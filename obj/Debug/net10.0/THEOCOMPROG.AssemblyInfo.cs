@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("THEOCOMPROG")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b4b793040673c68c139c543ee38fa2c71c084a8")]
 [assembly: System.Reflection.AssemblyProductAttribute("THEOCOMPROG")]
 [assembly: System.Reflection.AssemblyTitleAttribute("THEOCOMPROG")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
