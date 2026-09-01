@@ -1,0 +1,889 @@
+﻿@model THEOCOMPROG.Models.HomeViewModel
+
+@{
+    ViewData["Title"] = "Theology Comprog";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #ffffff;
+            background-color: #111111;
+            overflow-x: hidden;
+        }
+
+        /* NAVIGATION BAR */
+        .navbar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            fill: #ffffff;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #d4af37;
+        }
+
+        /* GENERAL SECTION LAYOUTS */
+        section {
+            min-height: 100vh;
+            width: 100vw;
+            padding: 120px 40px 80px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+            width: 100%;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            color: #d4af37;
+            text-align: center;
+        }
+
+        .section-subheading {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            letter-spacing: 4px;
+            color: #e0e0e0;
+            margin-top: 10px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-subheading::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 1px;
+            background: #d4af37;
+            margin: 12px auto 0 auto;
+        }
+
+        /* 1. FRONT PAGE / HERO */
+        #home {
+            position: relative;
+            justify-content: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.65)),
+                        url('/images/church-interior.jpg') no-repeat center center/cover;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 850px;
+        }
+
+        .hero-pretitle {
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #d4af37;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .hero-pretitle::before,
+        .hero-pretitle::after {
+            content: '';
+            display: inline-block;
+            width: 40px;
+            height: 1px;
+            background: rgba(212, 175, 55, 0.5);
+        }
+
+        .hero-title {
+            font-family: 'Cinzel', serif;
+            font-size: 3.2rem;
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 0.85rem;
+            font-weight: 300;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+            color: #e0e0e0;
+            margin-bottom: 35px;
+            max-width: 720px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .members-container {
+            margin: 30px auto 0 auto;
+            padding: 30px 25px;
+            max-width: 700px;
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .group-subheader {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: #d4af37;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .group-subheader::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 1px;
+            background: #d4af37;
+            margin: 8px auto 0 auto;
+        }
+
+        .members-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 0;
+        }
+
+        .members-list li {
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: #e0e0e0;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .members-list li:hover {
+            color: #ffffff;
+            border-color: rgba(212, 175, 55, 0.6);
+            background: rgba(212, 175, 55, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .members-list li.centered-member {
+            grid-column: 1 / -1;
+            justify-self: center;
+            width: 100%;
+            max-width: 320px;
+            border-color: rgba(212, 175, 55, 0.4);
+            background: rgba(212, 175, 55, 0.05);
+            font-weight: 500;
+        }
+
+        /* 2. TABULA CAPITUM (TABLE OF CONTENTS) */
+        #tabula-capitum {
+            background-color: #141414;
+            justify-content: center;
+            padding: 140px 40px 100px 40px;
+        }
+
+        #tabula-capitum .section-title {
+            font-size: 3rem;
+        }
+
+        #tabula-capitum .section-subheading {
+            font-size: 1.3rem;
+        }
+
+        .toc-card {
+            background: #1c1c1c;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            padding: 65px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+
+        .toc-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .toc-item {
+            display: flex;
+            align-items: center;
+            color: #e0e0e0;
+            font-family: 'Cinzel', serif;
+            font-size: 1.25rem;
+            letter-spacing: 2px;
+            padding-bottom: 16px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+        }
+
+        .toc-number {
+            color: #d4af37;
+            font-weight: 700;
+            margin-right: 20px;
+            font-size: 1.4rem;
+        }
+
+        /* 3. CONFESSIONES & SCITO DE NOBIS GRIDS */
+        #confessiones {
+            background-color: #161616;
+            justify-content: flex-start;
+        }
+
+        #scito-de-nobis {
+            background-color: #0d0d0d;
+            justify-content: flex-start;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 35px;
+            max-width: 1300px;
+            width: 100%;
+        }
+
+        .large-card {
+            background: #222222;
+            padding: 40px;
+            border: 1px solid #333333;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            text-align: left;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            width: 100%;
+        }
+
+        /* SPECIFIC CUSTOMIZATIONS FOR CONFESSION CARDS */
+        #confessiones .large-card {
+            height: 480px;
+        }
+
+        .card-body-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 12px;
+        }
+
+        /* Custom scrollbar styling for confessions cards */
+        .card-body-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .card-body-scroll::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .card-body-scroll::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.4);
+            border-radius: 4px;
+        }
+
+        .card-body-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(212, 175, 55, 0.7);
+        }
+
+        .large-card:hover {
+            transform: translateY(-5px);
+            border-color: #d4af37;
+        }
+
+        .large-card.centered-odd-card {
+            grid-column: 1 / -1;
+            justify-self: center;
+            max-width: 630px;
+            width: 100%;
+        }
+
+        .large-card h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 12px;
+            text-align: center;
+        }
+
+        .large-card p {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: #aaaaaa;
+            margin-bottom: 15px;
+        }
+
+        .developer-card {
+            padding: 30px;
+        }
+
+        /* PORTRAIT DEVELOPER PICTURE FRAME */
+        .developer-picture-frame {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            border: 1px dashed rgba(212, 175, 55, 0.4);
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .developer-picture-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 4. COGITATIO GREGIS & 5. VOTUM ULTIMUM */
+        #cogitatio-gregis {
+            background-color: #121212;
+            justify-content: center;
+        }
+
+        #votum-ultimum {
+            background-color: #080808;
+            justify-content: center;
+        }
+
+        .reflection-card, .prayer-card {
+            background: #1a1a1a;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 8px;
+            padding: 60px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            text-align: justify;
+        }
+
+        .reflection-card p, .prayer-card p {
+            font-size: 1rem;
+            line-height: 2;
+            color: #d1d1d1;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        .prayer-card p {
+            font-family: 'Cinzel', serif;
+            font-size: 1.05rem;
+            color: #f0e6d2;
+            line-height: 2.1;
+        }
+
+        .amen-text {
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            color: #d4af37;
+            margin-top: 20px;
+            letter-spacing: 3px;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @@media (max-width: 900px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .large-card.centered-odd-card {
+                grid-column: auto;
+                max-width: 100%;
+            }
+
+            .reflection-card, .prayer-card, .toc-card {
+                padding: 30px;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            section {
+                padding: 100px 20px 60px 20px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .nav-links {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .members-list {
+                grid-template-columns: 1fr;
+            }
+
+            .members-list li.centered-member {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar-container">
+        <nav class="navbar">
+            <div class="logo-container">
+                <svg class="logo-icon" viewBox="0 0 24 24">
+                    <path d="M12 2L10 5H11V8H8V10H11V22H13V10H16V8H13V5H14L12 2Z"/>
+                </svg>
+                <span>THEOLOGY COMPROG</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home Page</a></li>
+                <li><a href="#tabula-capitum">Contents</a></li>
+                <li><a href="#scito-de-nobis">Dev's Information</a></li>
+                <li><a href="#cogitatio-gregis">Reflect and Pray</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <div class="hero-content">
+                <div class="hero-pretitle">@ViewData["GroupTitle"]</div>
+                <h1 class="hero-title">@Model.MainTitle</h1>
+                <p class="hero-subtitle">
+                    @Model.ScriptureQuote<br><br>
+                    True freedom begins when we lay down the weight of our past at the altar. Confessing our past mistakes isn't about carrying guilt or shame; it’s about stepping into the transforming power of the Holy Spirit.
+                </p>
+               
+                <div class="members-container">
+                    <h3 class="group-subheader">Members</h3>
+                    <ul class="members-list">
+                        <li>Antonio, Miles Ivan</li>
+                        <li>Cruz, Glenard</li>
+                        <li>Cadilig, Paul Mckaizzer</li>
+                        <li>Delos Santos, Patrick Jace</li>
+                        <li>Itchon, Antonio Lorenzo</li>
+                        <li>Pelobello, Travis</li>
+                        <li>Mendoza Jr., Ronnelio</li>
+                        <li>Maclang, Josiah</li>
+                        <li>Polintan, Zandher</li>
+                        <li>Reyes, Angela</li>
+                        <li>Ramos, Arquel</li>
+                        <li>Rubiano, Prince Niño</li>
+                        <li class="centered-member">Tarol, Timothy John</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="tabula-capitum">
+            <div class="section-header">
+                <h2 class="section-title">TABULA CAPITUM</h2>
+                <div class="section-subheading">Table of Contents</div>
+            </div>
+            <div class="toc-card">
+                <ul class="toc-list">
+                    <li class="toc-item">
+                        <span class="toc-number">I.</span> Main page and Introduction
+                    </li>
+                    <li class="toc-item">
+                        <span class="toc-number">II.</span> Table of Contents
+                    </li>
+                    <li class="toc-item">
+                        <span class="toc-number">III.</span> Individual Confessions
+                    </li>
+                    <li class="toc-item">
+                        <span class="toc-number">IV.</span> The Group Reflection
+                    </li>
+                    <li class="toc-item">
+                        <span class="toc-number">V.</span> Final Prayer
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="confessiones">
+            <div class="section-header">
+                <h2 class="section-title">Confessiones</h2>
+                <div class="section-subheading">The echoes of Grace</div>
+            </div>
+            <div class="content-grid">
+                
+                <div class="large-card">
+                    <h3>Miles's Confession</h3>
+                    <div class="card-body-scroll">
+                        <p>I wake up every morning promising myself that today will be the day I finally turn things around, yet as the clock ticks, I watch the hours slide away while I stay rooted in place, feeling like I’m falling further and further behind everyone else. I’ve made an art out of hiding behind the label of "laziness," using it like armor to protect myself from the sting of trying and coming up short. Whenever the pressure mounts or the fear of being left in the dust catches up to me, I reach for a vape for a quick, fleeting cloud of comfort to quiet the panic of my own inaction.</p>
+                        <p>​Meanwhile, time keeps moving, and my constant lateness leaves a trail of waiting faces and quiet frustration in its wake. Every delayed arrival and brushed-off responsibility feels like another weight I subtly pass off to the people around me while I safe-harbor in immediate ease, watching the world move forward without me. Standing in the quiet aftermath of another day where I feel outdistanced and stagnant, the truth settles in: this sanctuary of comfort is actually a cage, and I am the one holding the key.</p>
+                    </div>
+                </div>
+
+                <div class="large-card">
+                    <h3>Glenard's Confession</h3>
+                    <div class="card-body-scroll">
+                        <p>Sometimes I know I am not always the version of myself. I make mistakes, I think a lot and I sometimes make decisions without thinking about what might happen next. I also compare myself to people and there are times when I feel I am not good enough.</p>
+                        <p>I admit I sometimes focus too much on my flaws and forget the good things I have. There are also times when I feel unmotivated, become lazy or avoid my responsibilities. I know these are things I must work on.</p>
+                        <p>I am sorry, for the times I have let my doubts and negative thoughts control me.I ask God to forgive me and help me become a person.I want to learn from my mistakes, trust myself more and appreciate who I am by always comparing myself to others.</p>
+                    </div>
+                </div>
+
+                <div class="large-card">
+                    <h3>Paul's Confession</h3>
+                    <div class="card-body-scroll">
+                        <p>I struggled with some mistakes I made in the past, especially when I made decisions without thinking carefully. I realized that my actions can affect myself and other people around me. I learned that making mistakes is normal, but I should take responsibility for them. I understand that I need to be more careful and think before making choices. </p>
+                        <p>I also realized that admitting my mistakes can help me grow as a person. I decided to learn from my experiences and avoid repeating the same mistakes. From now on, I will try to make better decisions and become a more responsible person.</p>
+                    </div>
+                </div>
+
+                <div class="large-card">
+                    <h3>Jace's Confession</h3>
+                    <div class="card-body-scroll">
+                        <p>One of my biggest struggles is balancing my studies with my responsibilities as a son. I often focus too much on school because I want to make my family proud, but sometimes I forget to help at home and spend time with them. As a Grade 12 student preparing for college, the pressure can be difficult, but I am thankful for my family’s understanding and support.</p>
+                        <p>Another struggle was losing our first dog, who always comforted me during difficult times. When he passed away, I became hurt and questioned God. I realized that I was also becoming distant from Him and forgetting to sincerely pray and give thanks.</p>
+                        <p>Through these experiences, like St. Augustine, I learned that struggles do not mean God has abandoned me. I may not understand His plans, but I should continue to trust Him. Moving forward, I want to balance my studies and responsibilities, strengthen my faith, and appreciate my family more.</p>
+                    </div>
+                </div>
+
+                <div class="large-card">
+                    <h3>Al's Confession</h3>
+                    <div class="card-body-scroll">
+                        <p>The wooden pew felt harder than usual as I sat in the dim light of the church. I imagined a scenario in my head, a crumpled piece of paper in my hand: my list. It wasn’t a to-do list; it was an inventory of my recent failures.</p>
+                        <p>I stared at the words I had scribbled down. Laziness. It wasn’t just about putting off homework; it was the heavy apathy that kept me glued to my screen when I knew my family needed help around the house. Hurtful words. I remembered the sharp, sarcastic comments I’d thrown out every day, words that had slipped out easily but left a stinging silence behind.</p>
+                        <p>Right next to that was the root of it all: Pride. It was that quiet, arrogant voice in my head that made me look down on others, constantly comparing myself to my classmates and deciding I was somehow smarter or more deserving. And trailing behind it was greed, this exhausting, endless desire to hoard my time, my stuff, and my energy, leaving absolutely no room for generosity.</p>
+                        <p>I felt weighed down by my own reflection. How was I supposed to walk into the confessional and admit all of this out loud? It felt like I was losing a battle against my own personality.</p>
+                        <p>As I sat in the quiet, my mind wandered to a story our teacher told us about St. Augustine. Before he became one of the greatest thinkers in history, he was a guy completely tangled in his own mess. He was brilliant, but deeply arrogant. In his famous book, Confessions, he wrote about how he wrestled with his own stubborn habits and intellectual pride. He knew exactly what he was doing wrong, but he felt powerless to stop. He famously realized that all his striving and self-reliance were pointless, writing, “You have made us for yourself, O Lord, and our hearts are restless until they rest in You.”</p>
+                        <p>I realized my heart was incredibly restless because I was trying to fix myself. I thought I could cure my own pride by just “trying harder.” But trying to defeat pride using nothing but your own willpower is just another form of pride.</p>
+                        <p>That’s when a verse from the Bible came to mind, cutting through the noise in my head:</p>
+                        <p>“The Lord will fight for you; you only need to be still.” — Exodus 14:14</p>
+                        <p>Sitting there, I realized my sins—the laziness, the biting comments, the quiet greed—were an army I couldn’t defeat on my own. God wasn’t asking me to have a perfect battle plan or to fix myself before I stepped into the confessional. He was asking me to stop thrashing around. To be still. To surrender the heavy lifting to Him.</p>
+                        <p>Taking a deep breath, I stood up and smoothed out the crumpled paper. The guilt didn’t vanish magically, but the panic did. I walked toward the confessional door not as a soldier trying to win a fight on my own, but as someone finally ready to be still. I was ready to name my struggles, knowing that the same grace that transformed St. Augustine’s proud heart was already stepping up to fight for mine.</p>
+                    </div>
+                </div>
+
+                <div class="large-card">
+                    <h3>Travis's Confession</h3>
+                    <div class="card-body-scroll">
+                        <p>For the past few years of my life as a student, I have always struggled with the sin of envy. It is not that I want to harm or sabotage other people’s success, but I have slowly lost the confidence and appreciation I have for myself. Whenever I accomplish something or achieve something that people would normally be proud of, I always find myself unsatisfied, thinking that my silly little achievement is probably just the bare minimum of the other. I feel an intense urge of envy toward people with the rich, talent or those fortunate enough to have an ideal family. I constantly compare myself to them. I try so hard to be considered great, to be versatile, to explore, experience, and learn as much as I can but sometimes I feel like I never become truly good at anything. Because of this, I developed a deep-seated resentment toward people who have a naturally gifted talent, especially when they do not seem to appreciate the abilities they have. </p>    
+                        <p>Eventually, I realized that my envy does not make other people’s achievements any less meaningful, nor does it make my own accomplishments worthless. I know that I may not completely eliminate this envious side of myself, but I can learn how to control it instead of allowing it to consume me. Envy begins where gratitude ends; we stare so long at another’s gift that we forget to recognize our own.</p>
+                    </div>
+                </div>
+
+                <div class="large-card">
+                    <h3>JJ's Confession</h3>
+                    <div class="card-body-scroll">
+                        <p>What Still Remains When Everything Changes?</p>
+                        <p>At first, I thought my life would change after I finished my junior high school years. I believed that Grade 10 would be the year when I could finally experience new things, expand my horizons, and enjoy every moment I had been looking forward to. I imagined that I would gain experiences that would make me happier and more confident about myself. However, I was wrong.</p>
+                        <p>Instead, that year became one of the most challenging periods of my life. I wished and prayed countless times for the courage, strength, and confidence I thought I needed. Yet, instead of giving me the life I expected, God gave me challenges. He placed people in my life who became either blessings or lessons. Some people betrayed me, used me, left me, and, most painfully, showed hidden intentions behind those interactions I once believed were genuine. At that time, I questioned why I had to experience those things. I thought they were problems that I did not need in my life.</p>
+                        <p>But now, I understand.</p>
+                        <p>God gave me those experiences because He wanted me to change, understand, and accept myself in a way I could not have discovered during my junior high school years. The pain I once wanted to escape became a lesson that helped me see life differently. The people I thought were meant to stay became part of my growth, even if their presence eventually turned into a painful memory.</p>
+                        <p>Now, as I enter my final year of senior high school, I carry something I did not have before: acceptance. I have learned to understand myself and the world through the experiences that once made me feel broken. What I once considered a problem, I now see as a blessing in disguise. Every opportunity, every loss, and every person God places in our lives has the ability to change us. Sometimes, these experiences leave scars that no one else can see.</p>
+                        <p>I also realized that being alone is not always a bad thing. Sometimes, solitude is a reset—a quiet space where we can reflect, rebuild ourselves, and choose a better direction. In those silent moments, I learned that “The strongest wings are formed in silence.” And I also learned that every pain gives a lesson, and every lesson changes a person.</p>
+                        <p>There was a time when I felt like I was living in a dream where I was the only person who knew everything I had been going through. There were moments when I felt completely shattered into pieces, yet no one knew how hard I was trying to pick those pieces up and put myself back together. I poured everything I had into becoming whole again, even when nobody saw the process.</p>
+                        <p>Before I completely let go of the past that changed me, I sincerely hope that the people who became part of my story—whether they hurt me, taught me, or left me—find happiness and peace. I no longer want to carry anger toward them. Instead, I choose to accept that they were part of the journey that shaped who I am today.
+Now, I am learning to live at my own pace. Life is not about comparing yourself with others; it is about the choices you make, the lessons you learn, and the person you choose to become. I am learning to embrace who I am today while making peace with who I was yesterday. No matter which journey I take or which choices I make, I remind myself not to doubt who I am.
+I have also learned that mistakes are not something we should always fear. There is only one way we can train ourselves to make fewer mistakes: by gaining as much experience as possible. Every experience, even the painful ones, gives us an opportunity to grow.
+Most importantly, I learned to trust God’s timing.</p>
+                        <p>Proverbs 16:9 reminds me, “We can make our plans, but the Lord determines our steps.” Sometimes, the path I want is not the path God has prepared for me.</p>
+                        <p>Ecclesiastes 3:11 reminds me that everything has its own time and purpose. I may not understand why something is happening now, but someday, I may finally understand why it had to happen.</p>
+                        <p>As John 13:7 says, “You do not understand now what I am doing, but someday you will.”</p>
+                        <p>I may not know what the future holds, but I trust that God will provide for me, just as Philippians 4:19 reminds me: “And my God will meet all your needs according to the riches of his glory in Christ Jesus.”</p>
+                        <p>And when I feel lost, I hold on to Isaiah 43:19: “Trust my timing, I am making a way.”</p>
+                        <p>Looking back, I realize that the person I became was shaped by the moments I once wished I could forget. My struggles did not destroy me; they taught me how to rebuild myself. My loneliness taught me how to understand myself. My pain taught me acceptance. And my experiences taught me that sometimes, God allows us to lose certain things so that we can discover something greater within ourselves.</p>
+                    
+                    </div>
+                </div>
+
+                <div class="large-card">
+                    <h3>Josiah's Confession</h3>
+                    <div class="card-body-scroll">
+                        <p>One of my biggest struggles is being slothful. When I am too comfortable and avoid doing things that I know I need to do, I prefer to rest and spend my time on my phone, computer, or the tv entertaining myself instead of studying or completing my tasks. Because of this struggle, it becomes hard to focus, be responsible, and it affects the way I behave. </p>
+                        <p>I realized that when I give in to this habit I feel light and at ease, but this can prevent me from becoming who I want to be. I learned that being diligent and responsible are important because my choices can affect the people around and my personal growth. I also realized that because I deal with this it does not mean I can't change.</p>
+                        <p>I will resolve this by becoming more disciplined with my time. I will avoid distractions, do my tasks before relaxing. I will constantly remind myself that I can't change if I constantly do unnecessary things. I know change can't happen easily, and instantly but small steps can help me improve and learn from my mistakes.</p>
+                    </div>
+                </div>
+
+                <div class="large-card">
+                    <h3>Zandher's Confession</h3>
+                    <div class="card-body-scroll">
+                        <p>There was a time when I felt like I had to deal with everything on my own. I kept worrying about my future, my studies, and if I was making the right choices. Whenever things didn’t go as planned, I would sometimes ask God why I had to experience those problems. I also got so focused on my problems that I forgot to pray. Instead of trusting God, I tried to handle everything myself. I knew I had faith, but sometimes I found it hard to actually put that faith into practice.</p>
+                        <p>As time went by, I started to realize that not everything will happen the way I want it to. I learned that having faith doesn’t mean having a life without problems. Sometimes, it simply means trusting God and continuing even when I’m not sure what will happen. I also realized that making mistakes doesn’t mean I’m a failure. My struggles can teach me something and help me grow. Like St. Augustine, I learned that looking for happiness in things other than God can sometimes leave me feeling lost. </p>
+                        <p>From now on, I want to be more patient with myself and strengthen my faith. I’ll try to pray more, trust God when things get difficult, and learn from my mistakes instead of blaming myself too much. I still don’t know exactly what my future will look like, but I know I’m still learning and growing. For now, I’ll keep doing my best and trust that God will guide me along the way.</p>
+                    </div>
+                </div>
+
+                <div class="large-card">
+                    <h3>Angela's Confession</h3>
+                    <div class="card-body-scroll">
+                        <p>I always feel like I'm falling behind. Every time I scroll through social media or look around my classroom, I see everyone else moving forward while I'm stuck in place. I compare myself to others constantly — their achievements, their confidence, their ease with people and I always come up short. I never have the courage to show off what I can do, so I stay quiet. I look down. I let others speak for me. And when someone asks if I'm okay, I just nod and say nothing, even though I'm literally fine. I just don't know how to be seen. But I've realized that my silence isn't peace — it's fear. I'm not actually fine, I'm just too scared to take up space. Comparing myself to others has become a habit that steals my joy and convinces me I'm not enough. The truth is, I've been hiding behind my quietness, using it as an excuse to never try. I've been waiting for permission to exist, but no one is going to give it to me.</p>
+                        <p>For now on, I will stop measuring my worth against someone else's highlight reel. I will learn to speak, even if my voice shakes. I will show up, even if no one notices at first. I don't need to be the loudest person in the room — I just need to stop making myself invisible. My quietness is not a flaw, but my hiding is. From now on, I will choose to be present, not just silent.</p>
+                    </div>
+                </div>
+
+                <div class="large-card">
+                    <h3>Arquel's Confession</h3>
+                    <div class="card-body-scroll">
+                        <p>Let’s start the story when I was still an elementary school student. I grew up as an academic achiever with good morals, I have no childhood experiences due to my strict grandparents who I was with till now. To the point that I talked to my classmates who were cursing and badmouthing other of my classmates. I was disciplined and a role model at our elementary school.</p>
+                        <p>Time had passed, it was the pandemic era, I was addicted to doom scrolling, video games and discovered other stuff that a child my age like me don’t need to see. There are so many things I have learned including both good and bad information, I became aware of the world, I was like Eve who discovered that she was clothesless when she ate the forbidden fruit. And that’s when curiosity comes into play.</p>
+                        <p>After the pandemic, it’s back to normal, but this time I was already a teenager, allowed to go out, meet with some friends, and do projects at my friend’s house. It was fun, but pleasure ate me alive. When I was grade 9, I learned to drink alcohol, vaping and also to cure, like a lot, I had become the person who I hated the most in the past. I had become the ghost that I had been afraid of the whole time.</p>
+                        <p>But God has a plan in my life. In the midst of the fun and exciting moment of my life, the church that I was attending made me a Youth leader. That was the turning point of my life, it opened my mind and I realized that I will not become effective if I myself do not practice what I teach. It was like a switch that turned my life upside down, but now it was for good.</p>
+                        <p>All of my vices had now slowly faded away in my life. Even though now I’m still learning, growing, progressing and changing, I have now the privilege to be called a Son of our Almighty God and now, I believe that God has a plan for my life, much better, if not the best for my future (Jeremiah 29:11). In the midst of the struggles that I faced, facing and will face I know the our God is able and there is no impossible for Him (Luke 1:37), I have learned to believe that my ways are not His ways,and my thoughts is not His thoughts, His works is the best of the best (Isaiah 55:8).</p>
+                        <p>In the end, I am very thankful for God and the people that He uses in order for me to be at this point of my life where I would follow His voice and command. Now this life is the representation of God’s unwavering, steadfast and everlasting love for us humans. Now, in view of God’s love and mercy, let us offer our body as a living sacrifice , holy and pleasing to God—this is our true and proper worship. And not conform to the pattern of this world, but be transformed by the renewing of our mind. (Romans 12:1-2) because we know that in all things God works for the good of those who love him, who have been called according to his purpose. </p>
+                    </div>
+                </div>
+
+                <div class="large-card">
+                    <h3>Prince's Confession</h3>
+                    <div class="card-body-scroll">
+                        <p>For years, I found the Lord in different sorts of ways, leading me in the same, narrow direction towards Him, yet I seem to struggle at times in seeing His light, shining through my own darkness. I confess that I would often oversee His revelation, for the sake of fulfilling my revolution.</p>
+                        <p>I would detest the path He leads me to, for the sake of me following “my heart” and  believing “in myself”, popular words in quotations, yet never fully manifested in His scripture. In contrast, “The heart is deceitful above all things and beyond cure. Who can understand it?” (Jeremiah 17:9)</p>
+                        <p>I plead guilty in often falling, and believing these sorts of worldly phrases that were supposed to be meant to “empower” yet at the wrong context and in misuse lead to pride that cowers and distancing oneself from the Lord.</p>
+                        <p>Pride, the same sin that made Lucifer fall from heaven’s blinding heights, and as fiery thunder’s lights often dares to put me into temptation. Often falling to it, consequently with the dare to become my own, yet comes disappointment when the expected results fail to be shown, at times leading to more sin from sloth and wrath.</p>
+                        <p> Repeating these mistakes from delusion, I would try to fix the same problems with the same failed solution, and leading to no resolution. Just because I remain myself in closed doors to different ways and ideas that may be more efficient.</p>
+                        <p>Yet with the situations, resources and people He has given me, He never seems to let me go astray, as for every fall, in every broken idea I would still somehow get to find to see the light and carry on with the fight to make use of my life’s time. </p>
+                        <p>As human as one gets, these people and situations bestowed by the Lord that may appear as solace or chaos, I am reminded that I have my own limits and that I am  human like the rest of us are, whether it is with friends or foes.</p>
+                        <p>For it is written that “Even youths grow tired and weary, and young men stumble and fall; but those who hope in the Lord will renew their strength.” (Isaiah 40:30–31). And I believe that I may have come to the point where I am in my teenage years transitioning to adulthood where impulses may lead to skyfall,.</p>
+                        <p>He calls me to rest my heart in Him, as it would remain restless until it rests in Him, then to walk again gently through Him. As would Augustin put into idea in his own confessions, that solace is never truly fulfilled, once you have surrendered your worries and ambitions to Him.</p>
+                        <p>To reframe these mere worldly purposes that only serves one’s pride, into glorifying His causes with caution and pauses, is to dig more depth to one’s shallow purpose. That is to serve others without reaping self-glory, but with returns to His grace.</p>
+                        <p>For man’s function is to live serving a greater cause, than merely existing as a variable of pride and to be lost.</p>
+                    </div>
+                </div>
+
+                <div class="large-card centered-odd-card">
+                    <h3>TeeJay's Confession</h3>
+                    <div class="card-body-scroll">
+                        <p>I struggled with always being compared to my brother, who was known for excelling in school and receiving many academic achievements. Unlike him, I was often seen as a troublemaker during my elementary years, and because of that, I felt like my parents and other people had already expected less from me. I was often underestimated in academics and sometimes felt like they saw me as a failure in school simply because I did not achieve the same things my brother did. For a long time, this made me feel like I had to prove myself and show everyone that I was capable of succeeding.</p>
+                        <p>Eventually, I realized that I do not need to prove my worth to anyone or compete with my brother’s achievements. Everyone has their own path, and my past does not determine my future.</p>
+                        <p>My resolution is to stop living for other peoples expectations, focus on becoming a better version of myself, and simply live my life while working toward my own goals. I may not have the same achievements as my brother, but I know that my story and my success can be different from his </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="scito-de-nobis">
+            <div class="section-header">
+                <h2 class="section-title">Scito de nobis</h2>
+                <div class="section-subheading">Developer Information</div>
+            </div>
+            <div class="content-grid">
+
+                <div class="large-card developer-card">
+                    <h3>Miles's Information</h3>
+                    <div class="developer-picture-frame">
+                        <img src="images/Milesresume.png" alt="Miles Ivan Antonio" onerror="this.style.display='none'" />
+                    </div>
+                </div>
+
+                <div class="large-card developer-card">
+                    <h3>Glenard's Information</h3>
+                    <div class="developer-picture-frame">
+                        <img src="images/Glenardresume.png" alt="Glenard Cruz" onerror="this.style.display='none'" />
+                    </div>
+                </div>
+
+                <div class="large-card developer-card">
+                    <h3>Paul's Information</h3>
+                    <div class="developer-picture-frame">
+                        <img src="images/Paulresume.png" alt="Paul Mckaizzer Cadilig" onerror="this.style.display='none'" />
+                    </div>
+                </div>
+
+                <div class="large-card developer-card">
+                    <h3>Jace's Information</h3>
+                    <div class="developer-picture-frame">
+                        <img src="images/Jaceresume.png" alt="Patrick Jace Delos Santos" onerror="this.style.display='none'" />
+                    </div>
+                </div>
+
+                <div class="large-card developer-card">
+                    <h3>Al's Information</h3>
+                    <div class="developer-picture-frame">
+                        <img src="images/Alresume.png" alt="Antonio Lorenzo Itchon" onerror="this.style.display='none'" />
+                    </div>
+                </div>
+
+                <div class="large-card developer-card">
+                    <h3>Travis's Information</h3>
+                    <div class="developer-picture-frame">
+                        <img src="images/Travisresume.png" alt="Travis Pelobello" onerror="this.style.display='none'" />
+                    </div>
+                </div>
+
+                <div class="large-card developer-card">
+                    <h3>JJ's Information</h3>
+                    <div class="developer-picture-frame">
+                        <img src="images/JJresume.png" alt="Ronnelio Mendoza Jr." onerror="this.style.display='none'" />
+                    </div>
+                </div>
+
+                <div class="large-card developer-card">
+                    <h3>Josiah's Information</h3>
+                    <div class="developer-picture-frame">
+                        <img src="images/Josiahresume.png" alt="Josiah Maclang" onerror="this.style.display='none'" />
+                    </div>
+                </div>
+
+                <div class="large-card developer-card">
+                    <h3>Zandher's Information</h3>
+                    <div class="developer-picture-frame">
+                        <img src="images/Zandherresume.png" alt="Zandher Polintan" onerror="this.style.display='none'" />
+                    </div>
+                </div>
+
+                <div class="large-card developer-card">
+                    <h3>Angela's Information</h3>
+                    <div class="developer-picture-frame">
+                        <img src="images/Angelaresume.png" alt="Angela Reyes" onerror="this.style.display='none'" />
+                    </div>
+                </div>
+
+                <div class="large-card developer-card">
+                    <h3>Arquel's Information</h3>
+                    <div class="developer-picture-frame">
+                        <img src="images/Arquelresume.png" alt="Arquel Ramos" onerror="this.style.display='none'" />
+                    </div>
+                </div>
+
+                <div class="large-card developer-card">
+                    <h3>Prince's Information</h3>
+                    <div class="developer-picture-frame">
+                        <img src="images/Princeresume.png" alt="Prince Niño Rubiano" onerror="this.style.display='none'" />
+                    </div>
+                </div>
+
+                <div class="large-card developer-card centered-odd-card">
+                    <h3>TeeJay's Information</h3>
+                    <div class="developer-picture-frame">
+                        <img src="images/TeeJayresume.png" alt="Timothy John Tarol" onerror="this.style.display='none'" />
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="cogitatio-gregis">
+            <div class="section-header">
+                <h2 class="section-title">cogitatio gregis</h2>
+                <div class="section-subheading">Group Reflection</div>
+            </div>
+            <div class="reflection-card">
+                <p>
+                    While our personal confessions remain sacred and private between God and us, the struggles we face are profoundly shared. Putting this book together highlighted a clear truth. We came to understand how easily high schoolers can feel isolated, presenting polished exteriors while silently grappling with daily anxieties about the future, moments of uncertainty, and the pressure to excel.
+                </p>
+                <p>
+                    Reflecting on St. Augustine’s journey taught us that being vulnerable before God is not a sign of weakness, but rather the beginning of grace. Even while honoring the confidentiality of our individual paths, the act of writing our testimonies fostered a silent, powerful connection among us. We realized that our restless hearts are not broken; they are merely in search of truth, purpose, and peace. Through this project, we learned to see our classmates with greater empathy, knowing that behind every face is a soul learning to trust God’s timing and love.
+                </p>
+            </div>
+        </section>
+
+        <section id="votum-ultimum">
+            <div class="section-header">
+                <h2 class="section-title">Votum Ultimum</h2>
+                <div class="section-subheading">Final Prayer</div>
+            </div>
+            <div class="prayer-card">
+                <p>
+                    Lord God, we come before You as young confessors, bringing our honest stories, our unfinished paths, and our deepest hopes. Thank You for meeting us in our stumbles, holding us steady in our doubts, and reminding us that Your love never runs out. Standing together, we vow to live out the resolutions formed during this journey by committing to embrace authenticity, choosing truth and honesty over pretense even when it feels uncomfortable. We promise to extend unconditional grace, offering patience, forgiveness, and kindness to those around us, knowing that everyone carries unseen battles. Finally, we vow to seek true rest, reminding ourselves daily of St. Augustine's realization that our restless desires will never be satisfied by external success or perfection, but only in Your peace. As we step forward toward what lies ahead, anchor our steps in faith, guide our decisions with wisdom, and let our lives always reflect the quiet echoes of Your grace.
+                </p>
+                <div class="amen-text">Amen.</div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
