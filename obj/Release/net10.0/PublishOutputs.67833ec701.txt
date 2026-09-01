@@ -1,0 +1,7 @@
+C:\THEOCOMPROG\publish\THEOCOMPROG.exe
+C:\THEOCOMPROG\publish\appsettings.Development.json
+C:\THEOCOMPROG\publish\appsettings.json
+C:\THEOCOMPROG\publish\THEOCOMPROG.dll
+C:\THEOCOMPROG\publish\THEOCOMPROG.deps.json
+C:\THEOCOMPROG\publish\THEOCOMPROG.runtimeconfig.json
+C:\THEOCOMPROG\publish\THEOCOMPROG.pdb
